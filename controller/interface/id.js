@@ -5,20 +5,31 @@
  */
 var relational = require('../../model/relational.js');
 var properties = require('../properties.js');
+var http = require('http');
 
-exports.getNamePasswordUser = function(req, res, next) {
-  console.log('getNamePasswordUser');
-  console.log(req.body);
-
-  var name = req.body.name;
-  var password = req.body.password;
-  console.log('getNamePasswordUser '+name);
-  console.log('getNamePasswordUser '+ password);
-  relational.getNamePasswordUser(name, password, function (error, u) {
+exports.postID = function(req, res, next) {
+  var id = req.body;
+  console.log(id);
+  relational.setID(id, function (error, boolean) {
     if (error) {
-      res.end(error);
+      console.log(error);
+      var status = 500;
+      res.status(status).end(http.STATUS_CODES[status]);
     } else {
-      res.end(u);
+      res.end(JSON.stringify(boolean));
+    }
+  });
+}
+
+exports.postIDID = function(req, res, next) {
+  var user = req.body;
+  relational.getID(user, function (error, location) {
+    if (error) {
+      console.log(error);
+      var status = 500;
+      res.status(status).end(http.STATUS_CODES[status]);
+    } else {
+      res.end(JSON.stringify(location));
     }
   });
 };

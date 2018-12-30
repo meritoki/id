@@ -1,53 +1,41 @@
 var database = require('./database.js');
 var sql = require('./relational/sql.js');
 var bcrypt = require('bcryptjs');
-var user = require('./object/user.js');
+var identification = require('./object/identification.js');
 
-
-exports.getNamePasswordUser = function(name, password, callback) {
-  console.log("relational.getNamePasswordUser")
-  this.getNameUser(name, function(err, user) {
-    if (err) {
-      //return callback(err, null);
-      return callback(null,null);
-    } else {
-      console.log('bcrypt compare');
-      bcrypt.compare(password, user.password, function(err, result) {
-        if (err) {
-          return callback(err, null);
-        } else {
-          if (result) {
-            console.log('bcrypt success');
-            database.getQueryResult(sql.updateUserLogin(user), function(err, result, fields) {
-              return callback(err, user);
-            });
-          } else {
-            return callback(null, null);
-          }
-        }
-      });
-    }
-  });
+exports.setID = function(id, callback) {
+  if (typeof id !== "undefined") {
+    database.getQueryResult(sql.insertID(id), function(err, result, fields) {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, true);
+    });
+  } else {
+    callback(new Error("typeof user === \"undefined\""), null);
+  }
 };
 
 
-exports.getNameUser = function(name, callback) {
-  console.log('relational.getNameUser ' + name);
-  if (typeof name !== "undefined") {
-    database.getQueryResult(sql.selectNameUser(name), function(err, result) {
+exports.getID = function(user, callback) {
+  if (typeof user !== "undefined") {
+    database.getQueryResult(sql.selectID(user), function(err, result) {
       u = null;
       if (result !== undefined && result != null && result.length > 0) {
-        u = new user();
-        u.idUser = result[0].id;
-        u.name = result[0].name;
-        u.email = result[0].email;
-        u.role = result[0].role;
-        u.password = result[0].password;
-        console.log(u);
+        l = new identification();
+        l.idUser = result[0].idUser;
+        l.idAgent = result[0].idAgent;
+        l.idMerchant = result[0].idMerchant;
+        l.idConsumer = result[0].idConsumer;
+        l.idCustomer = result[0].idCustomer;
+        l.idDonor = result[0].idDonor;
+        l.idIdentification = result[0].idIdentification;
+        l.name = result[0].name;
+        console.log(l);
       } else {
-        return callback(new Error("user is null"), null);
+        return callback(new Error("id is null"), null);
       }
-      return callback(err, u);
+      return callback(err, l);
     });
   } else {
     return callback(new Error("typeof name === \"undefined\""), null);
