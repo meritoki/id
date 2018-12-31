@@ -20,7 +20,7 @@ exports.setID = function(id, callback) {
 exports.getID = function(user, callback) {
   if (typeof user !== "undefined") {
     database.getQueryResult(sql.selectID(user), function(err, result) {
-      u = null;
+      var l = null;
       if (result !== undefined && result != null && result.length > 0) {
         l = new identification();
         l.idUser = result[0].idUser;
