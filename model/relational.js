@@ -20,9 +20,8 @@ exports.setID = function(id, callback) {
 exports.getID = function(user, callback) {
   if (typeof user !== "undefined") {
     database.getQueryResult(sql.selectID(user), function(err, result) {
-      var l = null;
+      var l = new identification();
       if (result !== undefined && result != null && result.length > 0) {
-        l = new identification();
         l.idUser = result[0].idUser;
         l.idAgent = result[0].idAgent;
         l.idMerchant = result[0].idMerchant;
@@ -31,11 +30,8 @@ exports.getID = function(user, callback) {
         l.idDonor = result[0].idDonor;
         l.idIdentification = result[0].idIdentification;
         l.name = result[0].name;
-        console.log(l);
-      } else {
-        return callback(new Error("id is null"), null);
       }
-      return callback(err, l);
+      return callback(null, l);
     });
   } else {
     return callback(new Error("typeof name === \"undefined\""), null);
