@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "5e77f326-aacd-48d5-8f6e-26b2d5c37bb4",
+		"name": "daily-bread-id-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:3003/v1/id",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idConsumer",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3003/v1/id/id",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"v1",
+						"id",
+						"id"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
