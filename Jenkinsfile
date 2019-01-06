@@ -19,10 +19,10 @@ pipeline {
         sh 'sudo rm -rf id'
         sh 'sudo git clone -b dev https://github.com/meritoki/id.git'
         sh 'cd id'
-        sh 'git remote update'
-        sh 'git fetch'
         sh 'git branch -a'
         sh 'git status'
+        sh 'docker stop auth-service || true && docker rm auth-service || true'
+        sh 'docker rmi $(docker images |grep \'dailybread/auth-service\') || true'
         sh 'docker build -t dailybread/id-service .'
         sh 'sudo docker run --network host -dlt --restart unless-stopped -p 3000:3000 dailybread/id-service'
       }
