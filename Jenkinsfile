@@ -24,7 +24,7 @@ pipeline {
         sh 'docker stop id-service || true && docker rm id-service || true'
         sh 'docker rmi $(docker images |grep \'dailybread/id-service\') || true'
         sh 'docker build -t dailybread/id-service .'
-        sh 'sudo docker run --network host -dlt --restart unless-stopped -p 3000:3000 dailybread/id-service'
+        sh 'sudo docker run --name id-service --network host -dlt --restart unless-stopped -p 3000:3000 dailybread/id-service'
       }
     }
   }
